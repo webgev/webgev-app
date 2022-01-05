@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 import { DefaultNavigatorOptions, NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack'
 import { StackNavigationConfig } from '@react-navigation/stack/lib/typescript/src/types'
 import React, { useMemo } from 'react'
 
@@ -18,11 +21,12 @@ interface NavigationProps<S extends ScreensProps, R extends Routes> {
   tab?: {
     tabs: Tab[]
     name: string
-    stackOptions?: StackNavigationOptions
+    stackOptions?: NativeStackNavigationOptions
     screenOptions?: BottomTabNavigationOptions
   }
 
-  navigatorProps?: Omit<DefaultNavigatorOptions<object>, 'children'> & StackNavigationConfig
+  navigatorProps?: Omit<DefaultNavigatorOptions<any, any, any, any>, 'children'> &
+    StackNavigationConfig
 }
 
 export function Navigation<S extends ScreensProps, R extends Routes>({
@@ -59,7 +63,7 @@ interface NavigatorProps<S extends ScreensProps, R extends Routes> {
   routes: Route<S, R>[]
 }
 
-const Stack = createStackNavigator()
+const Stack = createNativeStackNavigator()
 
 const navigator = <S extends ScreensProps, R extends Routes>({ routes }: NavigatorProps<S, R>) => {
   return routes.map(({ screen, name }) => {
